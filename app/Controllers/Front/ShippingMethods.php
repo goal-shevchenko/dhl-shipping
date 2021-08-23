@@ -82,13 +82,75 @@ class ShippingMethods
         $method_id = current( explode( ':', $selected_method ) );
 
         if ( DhlLocalPickup::$dhl_id == $method_id ) {
-            $dhl_shipping_session = WC()->session->get( 'dhl_shipping' );
-
-            if ( empty( $dhl_shipping_session['destination_shipping_offices']->locations ) ) {
-                $errors->add( 'validation', 'Currend shipping method not available. Please choose another.' );
-            }
+            $this->checkoutValidateDhlLocalPickup( $fields, $errors );
         }
     }
+
+    /**
+     * Validate Dhl Local Pickup fields
+     *
+     * @param	array	    $fields
+	 * @param	WP_Error    $errors
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+     */
+    public function checkoutValidateDhlLocalPickup( $fields, $errors )
+    {
+        $dhl_shipping_session = WC()->session->get( 'dhl_shipping' );
+
+        if ( empty( $dhl_shipping_session['destination_shipping_offices']->locations ) ) {
+            $error = 'Currend shipping method not available. Please choose another.';
+
+        } else if ( empty( $_POST['dhl_pickup_destination_id'] ) ) {
+            $error = 'Please choose DHL local office where you would like to pickup the parcel.';
+
+        } else {
+            foreach ( $dhl_shipping_session['destination_shipping_offices']->locations as $location ) {
+                $found = false;
+                $location_id = $this->getLocationId( $location );
+
+                if ( $location_id == $_POST['dhl_pickup_destination_id'] ) {
+                    $found = true;
+                    break;
+                }
+
+                if ( !$found )
+                    $error = 'Please choose another DHL local office where you would like to pickup the parcel.';
+            }
+        }
+
+        if ( !empty( $error ) )
+            $errors->add( 'validation', __( $error, DHL_SHIPPING_ID_UNDERSCORED) );
+    }
+
+    /**
+     * Add DHL shipping methods to product meta
+     *
+     * @param	int     $order_id
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+     */
+    public function updateOrderMetaOnCheckout( $order_id )
+	{
+        if ( !empty( $_POST['dhl_pickup_destination_id'] ) ) {
+            $pickup_destination_id = sanitize_text_field( $_POST['dhl_pickup_destination_id'] );
+
+			update_post_meta( $order_id, 'dhl_pickup_destination_id', $pickup_destination_id );
+            
+            $locations = WC()->session->get( 'dhl_shipping' )['destination_shipping_offices']->locations ?? '';
+
+            foreach ( $locations as $location ) {
+                $location_id = $this->getLocationId( $location );
+
+                if ( $location_id == $pickup_destination_id ) {
+                    update_post_meta( $order_id, 'dhl_pickup_destination_name', $this->getLocationName( $location ) );
+                    break;
+                }
+            }
+		}
+	}
 
     /**
      * Disable checkout button on cart page if there's no locations for local pickup
@@ -176,13 +238,13 @@ class ShippingMethods
             foreach ( $locations as $location ) {
                 $address_obj = $location->place->address;
 
-                $location_id = current( $location->location->ids )->locationId;
-                $location_address = $address_obj->streetAddress . ', ' . $address_obj->postalCode . ', ' . $address_obj->addressLocality;
+                $location_id = $this->getLocationId( $location );
+                $location_address = $this->getLocationName( $location );
 
                 $html .= '
                     <div>
-                        <input type="radio" name="dhl-pickup-destination-id" id="dhl-pickup-destination-"' . $location_id . '" value="' . $location_id . '" required />
-                        <label for="dhl-pickup-destination-"' . $location_id . '" >' . $location_address . '</label>
+                        <input type="radio" name="dhl_pickup_destination_id" id="dhl_pickup_destination_"' . $location_id . '" value="' . $location_id . '" required />
+                        <label for="dhl_pickup_destination_"' . $location_id . '" >' . $location_address . '</label>
                     </div>';
             }
 
@@ -193,6 +255,36 @@ class ShippingMethods
         $html .= '</div>';
 
         return $html;
+    }
+
+    /**
+     * Return location id of location retrieved from DHL API response
+     * 
+     * @param   stdObject   $location
+     * 
+     * @since   1.0.0
+     * @access  protected 
+     */
+    protected function getLocationId( $location )
+    {
+        return current( $location->location->ids )->locationId;
+    }
+
+    /**
+     * Return location id of location retrieved from DHL API response
+     * 
+     * @param   stdObject   $location
+     * 
+     * @since   1.0.0
+     * @access  protected 
+     */
+    protected function getLocationName( $location )
+    {
+        return ( 
+            $location->place->address->streetAddress 
+            . ', ' . $location->place->address->postalCode 
+            . ', ' . $location->place->address->addressLocality
+        );
     }
 
     /**

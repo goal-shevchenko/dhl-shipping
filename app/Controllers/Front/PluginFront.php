@@ -100,4 +100,18 @@ class PluginFront
 		$shipping_controller = new ShippingMethods();
 		$shipping_controller->checkoutValidation( $fields, $errors );
 	}
+
+	/**
+	 * Add DHL shipping methods to posted data during checkout
+	 * 
+	 * @param	int	$order_id
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 */
+	public function updateOrderMetaOnCheckout( $order_id )
+	{
+		$shipping_controller = new ShippingMethods();
+		$shipping_controller->updateOrderMetaOnCheckout( $order_id );
+	}
 }

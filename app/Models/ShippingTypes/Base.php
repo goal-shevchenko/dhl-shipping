@@ -125,6 +125,7 @@ class Base extends WC_Shipping_Method
 
     /**
      * Init settings fields
+     * Note: later can be added additional fields like cost, tax type, etc.
      * 
      * @since   1.0.0
      * @access  public

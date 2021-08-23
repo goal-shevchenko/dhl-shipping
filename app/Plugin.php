@@ -62,6 +62,7 @@ class Plugin
 		add_action( 'admin_init', [$plugin_admin, 'adminInit'] );
 
 		add_filter( 'woocommerce_shipping_methods', [$plugin_admin, 'shippingMethodsAdd'] );
+		add_filter( 'woocommerce_order_get_items', [$plugin_admin, 'orderUpdateShippingItems'], 10, 3 );
 	}
 
 	/**
@@ -82,6 +83,7 @@ class Plugin
 		add_filter( 'woocommerce_proceed_to_checkout', [$plugin_front, 'updateCheckoutButton'] );
 		add_filter( 'woocommerce_order_button_html', [$plugin_front, 'updatePlaceOrderButton'] );
 		add_action( 'woocommerce_after_checkout_validation', [$plugin_front, 'checkoutValidationShippingMethods'], 20, 2 );
+		add_action( 'woocommerce_checkout_update_order_meta', [$plugin_front, 'updateOrderMetaOnCheckout'] );
 	}
 
 	/**

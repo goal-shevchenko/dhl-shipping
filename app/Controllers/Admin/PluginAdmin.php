@@ -10,8 +10,8 @@ use DhlShipping\Models\ShippingTypes;
  *
  * Defines hooks related to admin area.
  *
- * @since 1.0.0
- * @package    DhlShipping\Admin
+ * @since 	1.0.0
+ * @package	DhlShipping\Admin
  */
 class PluginAdmin
 {
@@ -63,8 +63,8 @@ class PluginAdmin
 	/**
 	 * Register all functional on admin_init hook
 	 * 
-	 * @since 1.0.0
-	 * @access public
+	 * @since 	1.0.0
+	 * @access	public
 	 */
 	public function adminInit()
 	{
@@ -74,11 +74,11 @@ class PluginAdmin
 	/**
 	 * Add new shipping methods. Just create new class in shipping methods folder
 	 * 
-	 * @param array $methods
-	 * @return array
+	 * @param 	array $methods
+	 * @return	array
 	 * 
-	 * @since 1.0.0
-	 * @access public
+	 * @since 	1.0.0
+	 * @access 	public
 	 */
 	public function shippingMethodsAdd( $methods )
 	{
@@ -89,5 +89,34 @@ class PluginAdmin
 		}
 
 		return $methods;
+	}
+
+	/**
+	 * Display field value on the order edit page
+	 * 
+	 * @param 	array 		$items
+	 * @param 	WC_Order	$order
+	 * @param	array		$types
+	 * @return 	array		of items
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 */
+	function orderUpdateShippingItems( $items, $order, $types )
+	{
+		foreach ( $types as $type ) {
+			if ( $type == 'shipping' ) {
+				foreach ( $items as $item ) {
+					if ( $item->get_method_id() == 'dhl_local_pickup' ) {
+						
+						$updated_name = $item->get_data()['name'] . '. Office: ' . $order->get_meta( 'dhl_pickup_destination_name' );
+						$item->set_name( $updated_name );
+						break;
+					}
+				}
+			}
+		}
+
+		return $items;	
 	}
 }
