@@ -1,5 +1,5 @@
 {
-    "name": "maksim/dhl-shipping",
+    "name": "goal-shevchenko/shipping-plugin",
     "description": "Dhl shipping options for Woocommerce",
     "type": "plugin",
     "autoload": {
@@ -9,7 +9,7 @@
     },
     "authors": [
         {
-            "name": "Maksim S",
+            "name": "Anton M",
             "email": "example@example.com"
         }
     ],
