@@ -2,12 +2,12 @@
 
 namespace DhlShipping\Controllers\Admin;
 
-use DhlShipping\Models\ShippingTypes;
+use DhlShipping\Models\Settings as SettingsModel;
 
 /**
  * Settings page on admin panel
  * 
- * @since 1.0.0
+ * @since   1.0.0
  * @package DhlShipping\Controllers\Admin
  */
 class Settings extends BaseController
@@ -26,7 +26,7 @@ class Settings extends BaseController
      */
     public function __construct()
     {
-        $this->options = get_option( DHL_SHIPPING_ID_UNDERSCORED . '_options', [] );
+        $this->options = SettingsModel::get();
     }
 
     /**

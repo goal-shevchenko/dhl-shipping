@@ -7,7 +7,8 @@ use DhlShipping\Models\ShippingTypes\DhlExpressDelivery;
 
 /**
  * Provides DHL shipping types that can be shown on checkout page.
- * To create new shipping type create class in Models/ShippingTypes and place class name to getAllClasses method
+ * To create new shipping type create class in Models/ShippingTypes and place class name to getAllClasses method,
+ * and add additional functionality in Front\ShippingMethods.
  * 
  * @since   1.0.0
  * @package DhlShipping\Models
@@ -15,22 +16,7 @@ use DhlShipping\Models\ShippingTypes\DhlExpressDelivery;
 class ShippingTypes
 {   
     /**
-     * Return each shipping options details
-     * 
-     * @since   1.0.0
-     * @access  public
-     * @return  array
-     */
-    public static function getAll()
-    {
-        return [
-            DhlLocalPickup::getInfo(),
-            DhlExpressDelivery::getInfo()
-        ];
-    }
-    
-    /**
-     * Return each shipping option class
+     * Return each shipping types class
      * 
      * @since   1.0.0
      * @access  public
@@ -45,15 +31,20 @@ class ShippingTypes
     }
 
     /**
-     * Get enabled_shipping_types options
+     * Return each shipping typess details
      * 
-     * @return  array
      * @since   1.0.0
      * @access  public
+     * @return  array
      */
-    public static function getOptions()
+    public static function getAll()
     {
-        $options = get_option( DHL_SHIPPING_ID_UNDERSCORED . '_options', [] );
-        return $options['enabled_shipping_types'] ?? [];
+        $result = [];
+
+        foreach ( self::getAllClasses() as $class ) {
+            $result[] = $class::getInfo();    
+        }
+
+        return $result;
     }
 }

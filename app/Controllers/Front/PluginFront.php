@@ -2,6 +2,8 @@
 
 namespace DhlShipping\Controllers\Front;
 
+use DhlShipping\Controllers\Front\ShippingMethods;
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -28,7 +30,7 @@ class PluginFront
 	 */
 	public function enqueueStyles()
 	{
-		// wp_enqueue_style( DHL_SHIPPING_ID, plugin_dir_url( __FILE__ ) . 'assets/css/public/dhl-shipping-public.css', array(), DHL_SHIPPING_VERSION, 'all' );
+		wp_enqueue_style( DHL_SHIPPING_ID, DHL_SHIPPING_ROOT_URL . 'assets/css/public/dhl-shipping-public.css', array(), DHL_SHIPPING_VERSION );
 	}
 
 	/**
@@ -38,7 +40,64 @@ class PluginFront
 	 */
 	public function enqueueScripts()
 	{
-		// wp_enqueue_script( DHL_SHIPPING_ID, plugin_dir_url( __FILE__ ) . 'assets/js/public/dhl-shipping-public.js', array( 'jquery' ), DHL_SHIPPING_VERSION, false );
+		// wp_enqueue_script( DHL_SHIPPING_ID, DHL_SHIPPING_ROOT_URL . 'assets/js/public/dhl-shipping-public.js', array( 'jquery' ), DHL_SHIPPING_VERSION );
 	}
 
+	/**
+	 * Head request to From shipping methods controller when change shipping method on cart/checkout pages
+	 * 
+	 * @param 	WC_Shipping_Rate $method
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 */
+	public function changeShippingMethod( $method )
+	{
+		if( !is_checkout() && !is_cart() ) 
+			return;
+
+		$shipping_controller = new ShippingMethods();
+		$shipping_controller->cartShippingMethodsLayoutChange( $method );
+	}
+
+	/**
+	 * Disable checkout button depending from shipping method
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 */
+	public function updateCheckoutButton()
+	{
+		$shipping_controller = new ShippingMethods();
+		$shipping_controller->removeCheckoutButtonIfShippingNotAvailable();
+	}
+
+	/**
+	 * Disable Place order button on checkout page depending from shipping method
+	 * 
+	 * @param	string $button
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 */
+	public function updatePlaceOrderButton( $button )
+	{
+		$shipping_controller = new ShippingMethods();
+		$shipping_controller->disablePlaceOrderButtonIfShippingNotAvailable( $button );
+	}
+
+	/**
+	 * Validate shipping methods on checkout page
+	 * 
+	 * @param	array	$fields
+	 * @param	object	$errors
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 */
+	public function checkoutValidationShippingMethods( $fields, $errors )
+	{
+		$shipping_controller = new ShippingMethods();
+		$shipping_controller->checkoutValidation( $fields, $errors );
+	}
 }

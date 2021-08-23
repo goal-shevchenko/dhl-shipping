@@ -77,6 +77,11 @@ class Plugin
 
 		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueueStyles'] );
 		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueueScripts'] );
+
+		add_action( 'woocommerce_after_shipping_rate', [$plugin_front, 'changeShippingMethod'] );
+		add_filter( 'woocommerce_proceed_to_checkout', [$plugin_front, 'updateCheckoutButton'] );
+		add_filter( 'woocommerce_order_button_html', [$plugin_front, 'updatePlaceOrderButton'] );
+		add_action( 'woocommerce_after_checkout_validation', [$plugin_front, 'checkoutValidationShippingMethods'], 20, 2 );
 	}
 
 	/**
