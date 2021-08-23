@@ -8,21 +8,13 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
  * @since             1.0.0
- * @package           Dhl_Shipping
  *
  * @wordpress-plugin
- * Dhl Shipping:       WordPress Plugin Boilerplate
- * Plugin URI:        http://example.com/dhl-shipping-uri/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Plugin Name:      Dhl shipping plugin
+ * Description:       Extend Woocommerce with new DHL shipping options
  * Version:           1.0.0
- * Author:            Your Name or Your Company
- * Author URI:        http://example.com/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       dhl-shipping
- * Domain Path:       /languages
+ * Author:            Anton
  */
 
 // If this file is called directly, abort.
@@ -30,53 +22,50 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once( __DIR__ . '/vendor/autoload.php' );
+
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
  */
 define( 'DHL_SHIPPING_VERSION', '1.0.0' );
+define( 'DHL_SHIPPING_DB_VERSION', '1.0.0' );
+define( 'DHL_SHIPPING_ID', 'dhl-shipping' );
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-dhl-shipping-activator.php
+ * Register file resible for plugin activation 
+ * 
+ * @since 1.0.0
  */
-function activate_dhl_shipping() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-dhl-shipping-activator.php';
-	Dhl_Shipping_Activator::activate();
+function dhlShippingActivate()
+{
+	include_once( __DIR__ . '/dhl-shipping/plugin-activator.php' );
+	$activator = new DhlShipping\PluginActivator();
+
+	register_activation_hook( __FILE__, [$activator, 'activate'] );
 }
 
 /**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-dhl-shipping-deactivator.php
+ * Register file resible for plugin deactivation 
+ * 
+ * @since 1.0.0
  */
-function deactivate_dhl_shipping() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-dhl-shipping-deactivator.php';
-	Dhl_Shipping_Deactivator::deactivate();
+function dhlShippingDeactivate()
+{
+	include_once( __DIR__ . '/dhl-shipping/plugin-deactivator.php' );
+	$deactivator = new DhlShipping\PluginDeactivator();
+
+	register_deactivation_hook( __FILE__, [$deactivator, 'deactivate'] );
 }
 
-register_activation_hook( __FILE__, 'activate_dhl_shipping' );
-register_deactivation_hook( __FILE__, 'deactivate_dhl_shipping' );
-
 /**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require plugin_dir_path( __FILE__ ) . 'includes/class-dhl-shipping.php';
-
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
+ * Start point of the plugin
  *
  * @since    1.0.0
  */
-function run_dhl_shipping() {
-
-	$plugin = new Dhl_Shipping();
+function runDhlShipping()
+{
+	$plugin = new DhlShipping\Plugin();
 	$plugin->run();
-
 }
-run_dhl_shipping();
+
+runDhlShipping();

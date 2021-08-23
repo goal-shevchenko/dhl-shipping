@@ -3,8 +3,8 @@
 namespace DhlShipping;
 
 use DhlShipping\PluginI18n;
-use DhlShipping\Controllers\Admin\PluginAdmin;
-use DhlShipping\Controllers\Front\PluginFront;
+use DhlShipping\Admin\PluginAdmin;
+use DhlShipping\Front\PluginFront;
 
 /**
  * The core plugin class
@@ -54,15 +54,10 @@ class Plugin
 	{
 		$plugin_admin = new PluginAdmin();
 
-		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueueStyles'] );
-		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueueScripts'] );
+		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueue_styles'] );
+		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueue_scripts'] );
 
-		add_action( 'admin_menu', [$plugin_admin, 'initMenu'] );
-
-		add_action( 'admin_init', [$plugin_admin, 'adminInit'] );
-
-		add_filter( 'woocommerce_shipping_methods', [$plugin_admin, 'shippingMethodsAdd'] );
-		add_filter( 'woocommerce_order_get_items', [$plugin_admin, 'orderUpdateShippingItems'], 10, 3 );
+		add_action( 'admin_menu', [$plugin_admin, 'init_menu'] );
 	}
 
 	/**
@@ -76,14 +71,9 @@ class Plugin
 	{
 		$plugin_front = new PluginFront();
 
-		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueueStyles'] );
-		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueueScripts'] );
+		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueue_styles'] );
+		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueue_scripts'] );
 
-		add_action( 'woocommerce_after_shipping_rate', [$plugin_front, 'changeShippingMethod'] );
-		add_filter( 'woocommerce_proceed_to_checkout', [$plugin_front, 'updateCheckoutButton'] );
-		add_filter( 'woocommerce_order_button_html', [$plugin_front, 'updatePlaceOrderButton'] );
-		add_action( 'woocommerce_after_checkout_validation', [$plugin_front, 'checkoutValidationShippingMethods'], 20, 2 );
-		add_action( 'woocommerce_checkout_update_order_meta', [$plugin_front, 'updateOrderMetaOnCheckout'] );
 	}
 
 	/**

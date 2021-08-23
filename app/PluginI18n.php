@@ -8,16 +8,15 @@ namespace DhlShipping;
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since	1.0.0
- * @package	DhlShipping\PluginI18n
+ * @since      1.0.0
+ * @subpackage DhlShipping\PluginI18n
  */
 class PluginI18n
 {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since	1.0.0
-	 * @access 	public
+	 * @since    1.0.0
 	 */
 	public function load_plugin_textdomain()
 	{

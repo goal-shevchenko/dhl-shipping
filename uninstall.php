@@ -16,13 +16,9 @@
  * This file may be updated more in future version of the Boilerplate; however, this is the
  * general skeleton and outline for how the file should work.
  *
- * For more information, see the following discussion:
- * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
- *
- * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Dhl_Shipping
+ * @package    DhlShipping
  */
 
 // If uninstall not called from WordPress, then exit.
