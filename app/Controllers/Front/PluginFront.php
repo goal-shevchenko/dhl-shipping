@@ -26,7 +26,7 @@ class PluginFront
 	 *
 	 * @since	1.0.0
 	 */
-	public function enqueue_styles()
+	public function enqueueStyles()
 	{
 		// wp_enqueue_style( DHL_SHIPPING_ID, plugin_dir_url( __FILE__ ) . 'assets/css/public/dhl-shipping-public.css', array(), DHL_SHIPPING_VERSION, 'all' );
 	}
@@ -36,7 +36,7 @@ class PluginFront
 	 *
 	 * @since	1.0.0
 	 */
-	public function enqueue_scripts()
+	public function enqueueScripts()
 	{
 		// wp_enqueue_script( DHL_SHIPPING_ID, plugin_dir_url( __FILE__ ) . 'assets/js/public/dhl-shipping-public.js', array( 'jquery' ), DHL_SHIPPING_VERSION, false );
 	}

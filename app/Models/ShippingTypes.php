@@ -2,59 +2,58 @@
 
 namespace DhlShipping\Models;
 
+use DhlShipping\Models\ShippingTypes\DhlLocalPickup;
+use DhlShipping\Models\ShippingTypes\DhlExpressDelivery;
+
 /**
- * Provides DHL shipping types that can be shown on checkout page
+ * Provides DHL shipping types that can be shown on checkout page.
+ * To create new shipping type create class in Models/ShippingTypes and place class name to getAllClasses method
  * 
- * @since 1.0.0
+ * @since   1.0.0
+ * @package DhlShipping\Models
  */
 class ShippingTypes
-{
+{   
     /**
-     * Type of the shipping - local pickup from DHL office
+     * Return each shipping options details
      * 
-     * @since 1.0.0
-     * @var string
+     * @since   1.0.0
+     * @access  public
+     * @return  array
      */
-    const TYPE_LOCAL_PICKUP = 'dhl_local_pickup';
-
-    /**
-     * Name of local pickup type
-     * 
-     * @since 1.0.0
-     * @var string
-     */
-    const TYPE_LOCAL_PICKUP_NAME = 'DHL local pickup from office';
-
-
-    /**
-     * Type of the shipping - express delivery to door
-     * 
-     * @since 1.0.0
-     * @var string
-     */
-    const TYPE_EXPRESS_DELIVERY = 'dhl_express_delivery';
-
-    /**
-     * Name of express delivery type
-     * 
-     * @since 1.0.0
-     * @var string
-     */
-    const TYPE_EXPRESS_DELIVERY_NAME = 'DHL express delivery to door';
-
-    
-    /**
-     * Return all shipping types in form [id => name]
-     * 
-     * @since 1.0.0
-     * @access public
-     * @return array
-     */
-    public static function get_all()
+    public static function getAll()
     {
         return [
-            self::TYPE_LOCAL_PICKUP     => self::TYPE_LOCAL_PICKUP_NAME,
-            self::TYPE_EXPRESS_DELIVERY => self::TYPE_EXPRESS_DELIVERY_NAME
+            DhlLocalPickup::getInfo(),
+            DhlExpressDelivery::getInfo()
         ];
+    }
+    
+    /**
+     * Return each shipping option class
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array
+     */
+    public static function getAllClasses()
+    {
+        return [
+            DhlLocalPickup::class,
+            DhlExpressDelivery::class
+        ];
+    }
+
+    /**
+     * Get enabled_shipping_types options
+     * 
+     * @return  array
+     * @since   1.0.0
+     * @access  public
+     */
+    public static function getOptions()
+    {
+        $options = get_option( DHL_SHIPPING_ID_UNDERSCORED . '_options', [] );
+        return $options['enabled_shipping_types'] ?? [];
     }
 }

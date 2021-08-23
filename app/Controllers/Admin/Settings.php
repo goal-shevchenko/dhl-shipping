@@ -36,7 +36,7 @@ class Settings extends BaseController
      */
     public function init()
     {
-        $this->init_main_settings();
+        $this->initMainSettings();
     }
 
     /**
@@ -45,7 +45,7 @@ class Settings extends BaseController
      * @since 1.0.0
      * @access public
      */
-    public function init_main_settings()
+    public function initMainSettings()
     {
         register_setting( DHL_SHIPPING_ID_UNDERSCORED, DHL_SHIPPING_ID_UNDERSCORED . '_options' );
 
@@ -54,24 +54,12 @@ class Settings extends BaseController
         add_settings_field( 
             'plugin_enabled',
             __( 'Plugin status', DHL_SHIPPING_ID_UNDERSCORED ),
-            [$this, 'plugin_enabled_view'],
+            [$this, 'pluginEnabledView'],
             DHL_SHIPPING_ID_UNDERSCORED,
             DHL_SHIPPING_ID_UNDERSCORED . '_main_settings',
             [
                 'name'  => 'plugin_enabled',
                 'class' => 'plugin_enabled_row'
-            ]
-        );
-
-        add_settings_field( 
-            'enabled_shipping_types',
-            __( 'Enabled shipping types', DHL_SHIPPING_ID_UNDERSCORED ),
-            [$this, 'enabled_shipping_types_view'],
-            DHL_SHIPPING_ID_UNDERSCORED,
-            DHL_SHIPPING_ID_UNDERSCORED . '_main_settings',
-            [
-                'name'  => 'enabled_shipping_types',
-                'class' => 'enabled_shipping_types_row'
             ]
         );
     }
@@ -84,7 +72,7 @@ class Settings extends BaseController
      * @since 1.0.0
      * @access public
      */
-    public function plugin_enabled_view( $args )
+    public function pluginEnabledView( $args )
     {
         $enabled = !empty( $this->options[ $args['name'] ] );
         ?>
@@ -94,34 +82,6 @@ class Settings extends BaseController
             </select>
         <?php
     }
-
-    /**
-     * Generate view for enabled shipping options
-     * 
-     * @param array $args
-     * 
-     * @since 1.0.0
-     * @access public
-     */
-    public function enabled_shipping_types_view( $args )
-    {
-        $shiping_types = ShippingTypes::get_all();
-
-        foreach ( $shiping_types as $id => $name ) {
-            $enabled = !empty( $this->options[ $args['name'] ][ $id ] );
-            ?>
-                <div class="delivery-type-line">
-                    <input type="checkbox" 
-                        id="shipping-type-<?= $id ?>" 
-                        name="<?= DHL_SHIPPING_ID_UNDERSCORED ?>_options[<?= $args['name'] ?>][<?= $id ?>]" <?= $enabled ? 'checked' : '' ?>
-                        value="true" />
-                    <label for="shipping-type-<?= $id ?>"><?= $name ?></label>
-                </div>
-                
-            <?php
-        }
-    }
-
 
     /**
      * Load settings page view

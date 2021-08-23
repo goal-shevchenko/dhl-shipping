@@ -54,12 +54,14 @@ class Plugin
 	{
 		$plugin_admin = new PluginAdmin();
 
-		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueue_styles'] );
-		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueue_scripts'] );
+		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueueStyles'] );
+		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueueScripts'] );
 
-		add_action( 'admin_menu', [$plugin_admin, 'init_menu'] );
+		add_action( 'admin_menu', [$plugin_admin, 'initMenu'] );
 
-		add_action( 'admin_init', [$plugin_admin, 'admin_init'] );
+		add_action( 'admin_init', [$plugin_admin, 'adminInit'] );
+
+		add_filter( 'woocommerce_shipping_methods', [$plugin_admin, 'shippingMethodsAdd'] );
 	}
 
 	/**
@@ -73,9 +75,8 @@ class Plugin
 	{
 		$plugin_front = new PluginFront();
 
-		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueue_styles'] );
-		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueue_scripts'] );
-
+		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueueStyles'] );
+		add_action( 'wp_enqueue_scripts', [$plugin_front, 'enqueueScripts'] );
 	}
 
 	/**

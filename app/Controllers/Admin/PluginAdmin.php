@@ -3,6 +3,7 @@
 namespace DhlShipping\Controllers\Admin;
 
 use DhlShipping\Controllers\Admin\Settings;
+use DhlShipping\Models\ShippingTypes;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -31,7 +32,7 @@ class PluginAdmin
 	 * @since	1.0.0
 	 * @access 	public
 	 */
-	public function enqueue_styles()
+	public function enqueueStyles()
 	{
 		wp_enqueue_style( DHL_SHIPPING_ID, DHL_SHIPPING_ROOT_URL . '/assets/css/admin/dhl-shipping-admin.css', array(), DHL_SHIPPING_VERSION, 'all' );
 	}
@@ -42,7 +43,7 @@ class PluginAdmin
 	 * @since   1.0.0
 	 * @access 	public
 	 */
-	public function enqueue_scripts()
+	public function enqueueScripts()
 	{
 		// wp_enqueue_script( DHL_SHIPPING_ID, DHL_SHIPPING_ROOT_URL . '/assets/js/admin/dhl-shipping-admin.js', array( 'jquery' ), DHL_SHIPPING_ID, false );
 	}
@@ -53,7 +54,7 @@ class PluginAdmin
 	 * @since   1.0.0
 	 * @access 	public
 	 */
-	public function init_menu()
+	public function initMenu()
 	{
 		add_menu_page( DHL_SHIPPING_TITLE, DHL_SHIPPING_TITLE, 'manage_options', DHL_SHIPPING_ID, [$this->settings, 'view'] );
 		add_submenu_page( DHL_SHIPPING_ID, DHL_SHIPPING_TITLE, "Settings", 'manage_options', DHL_SHIPPING_ID );
@@ -61,9 +62,32 @@ class PluginAdmin
 
 	/**
 	 * Register all functional on admin_init hook
+	 * 
+	 * @since 1.0.0
+	 * @access public
 	 */
-	public function admin_init()
+	public function adminInit()
 	{
 		$this->settings->init();
+	}
+
+	/**
+	 * Add new shipping methods. Just create new class in shipping methods folder
+	 * 
+	 * @param array $methods
+	 * @return array
+	 * 
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function shippingMethodsAdd( $methods )
+	{
+		$shipping_classes = ShippingTypes::getAllClasses();
+
+		foreach( $shipping_classes as $class ) {
+			$methods[ $class::$dhl_id ] = $class;
+		}
+
+		return $methods;
 	}
 }
