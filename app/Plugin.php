@@ -3,8 +3,8 @@
 namespace DhlShipping;
 
 use DhlShipping\PluginI18n;
-use DhlShipping\Admin\PluginAdmin;
-use DhlShipping\Front\PluginFront;
+use DhlShipping\Controllers\Admin\PluginAdmin;
+use DhlShipping\Controllers\Front\PluginFront;
 
 /**
  * The core plugin class
@@ -58,6 +58,8 @@ class Plugin
 		add_action( 'admin_enqueue_scripts', [$plugin_admin, 'enqueue_scripts'] );
 
 		add_action( 'admin_menu', [$plugin_admin, 'init_menu'] );
+
+		add_action( 'admin_init', [$plugin_admin, 'admin_init'] );
 	}
 
 	/**

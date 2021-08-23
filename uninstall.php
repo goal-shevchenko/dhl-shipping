@@ -25,3 +25,12 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+function dhl_shipping_delete_plugin()
+{
+	delete_option( DHL_SHIPPING_ID_UNDERSCORED . '_db_version' );
+	delete_option( DHL_SHIPPING_ID_UNDERSCORED . '_options' );
+	delete_option( DHL_SHIPPING_ID_UNDERSCORED . '_makito' );
+}
+
+dhl_shipping_delete_plugin();

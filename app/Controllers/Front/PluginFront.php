@@ -38,7 +38,7 @@ class PluginFront
 	 */
 	public function enqueue_scripts()
 	{
-		wp_enqueue_script( DHL_SHIPPING_ID, plugin_dir_url( __FILE__ ) . 'assets/js/public/dhl-shipping-public.js', array( 'jquery' ), DHL_SHIPPING_VERSION, false );
+		// wp_enqueue_script( DHL_SHIPPING_ID, plugin_dir_url( __FILE__ ) . 'assets/js/public/dhl-shipping-public.js', array( 'jquery' ), DHL_SHIPPING_VERSION, false );
 	}
 
 }

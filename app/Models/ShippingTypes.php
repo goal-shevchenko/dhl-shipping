@@ -2,49 +2,59 @@
 
 namespace DhlShipping\Models;
 
-use DhlShipping\Models\ShippingTypes\DhlLocalPickup;
-use DhlShipping\Models\ShippingTypes\DhlExpressDelivery;
-
 /**
- * Provides DHL shipping types that can be shown on checkout page.
- * To create new shipping type create class in Models/ShippingTypes and place class name to getAllClasses method,
- * and add additional functionality in Front\ShippingMethods.
+ * Provides DHL shipping types that can be shown on checkout page
  * 
- * @since   1.0.0
- * @package DhlShipping\Models
+ * @since 1.0.0
  */
 class ShippingTypes
-{   
+{
     /**
-     * Return each shipping types class
+     * Type of the shipping - local pickup from DHL office
      * 
-     * @since   1.0.0
-     * @access  public
-     * @return  array
+     * @since 1.0.0
+     * @var string
      */
-    public static function getAllClasses()
+    const TYPE_LOCAL_PICKUP = 'dhl_local_pickup';
+
+    /**
+     * Name of local pickup type
+     * 
+     * @since 1.0.0
+     * @var string
+     */
+    const TYPE_LOCAL_PICKUP_NAME = 'DHL local pickup from office';
+
+
+    /**
+     * Type of the shipping - express delivery to door
+     * 
+     * @since 1.0.0
+     * @var string
+     */
+    const TYPE_EXPRESS_DELIVERY = 'dhl_express_delivery';
+
+    /**
+     * Name of express delivery type
+     * 
+     * @since 1.0.0
+     * @var string
+     */
+    const TYPE_EXPRESS_DELIVERY_NAME = 'DHL express delivery to door';
+
+    
+    /**
+     * Return all shipping types in form [id => name]
+     * 
+     * @since 1.0.0
+     * @access public
+     * @return array
+     */
+    public static function get_all()
     {
         return [
-            DhlLocalPickup::class,
-            DhlExpressDelivery::class
+            self::TYPE_LOCAL_PICKUP     => self::TYPE_LOCAL_PICKUP_NAME,
+            self::TYPE_EXPRESS_DELIVERY => self::TYPE_EXPRESS_DELIVERY_NAME
         ];
-    }
-
-    /**
-     * Return each shipping typess details
-     * 
-     * @since   1.0.0
-     * @access  public
-     * @return  array
-     */
-    public static function getAll()
-    {
-        $result = [];
-
-        foreach ( self::getAllClasses() as $class ) {
-            $result[] = $class::getInfo();    
-        }
-
-        return $result;
     }
 }
