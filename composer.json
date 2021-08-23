@@ -1,0 +1,19 @@
+{
+    "name": "maksim/dhl-shipping",
+    "description": "Dhl shipping options for Woocommerce",
+    "type": "plugin",
+    "autoload": {
+        "psr-4": {
+            "DhlShipping\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Maksim S",
+            "email": "example@example.com"
+        }
+    ],
+    "require": {
+        "php-curl-class/php-curl-class": "^9.3"
+    }
+}
