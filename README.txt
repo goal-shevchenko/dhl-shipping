@@ -29,7 +29,7 @@ Yes
 
 == Development ==
 
-1. git clone
+1. git clone git@github.com:goal-shevchenko/shipping-plugin.git
 2. cd dhl-shipping
 3. composer install
-4. composer dump-autoload
+4. composer dump-autoload -o
