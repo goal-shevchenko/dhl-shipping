@@ -15,6 +15,8 @@
  * Description:       	Extend Woocommerce with new DHL shipping options
  * Version:           	1.0.0
  * Author:           	Anton
+ * Requires at least:	5.6
+ * Requires PHP:		7.2
  */
 
 // If this file is called directly, abort.
@@ -24,9 +26,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once( __DIR__ . '/vendor/autoload.php' );
 
-/**
- * Currently plugin version.
- */
 define( 'DHL_SHIPPING_VERSION', '1.0.0' );
 define( 'DHL_SHIPPING_DB_VERSION', '1.0.0' );
 define( 'DHL_SHIPPING_ID', 'dhl-shipping' );

@@ -52,29 +52,9 @@ class Settings extends BaseController
 
         add_settings_section( DHL_SHIPPING_ID_UNDERSCORED . '_main_settings', DHL_SHIPPING_TITLE, '', DHL_SHIPPING_ID_UNDERSCORED );
         
-        $this->addSettingField( 'plugin_enabled', 'Plugin status', 'pluginEnabledView', 'main_settings' );
         $this->addSettingField( 'dhl_api_key', 'DHL API key', 'dhlApiKeyView', 'main_settings' );
         $this->addSettingField( 'dhl_api_secret', 'DHL API secret', 'dhlApiSecretView', 'main_settings' );
         $this->addSettingField( 'dhl_api_sandbox', 'DHL API sandbox', 'dhlApiSandboxView', 'main_settings' );
-    }
-
-    /**
-     * Generate view for plugin enabled option
-     * 
-     * @param array $args
-     * 
-     * @since   1.0.0
-     * @access  public
-     */
-    public function pluginEnabledView( $args )
-    {
-        $enabled = !empty( $this->options[ $args['name'] ] );
-        ?>
-            <select name='<?= DHL_SHIPPING_ID_UNDERSCORED ?>_options[<?= $args['name'] ?>]' id='<?= $args['id'] ?>'>
-                <option value='' <?= !$enabled ? 'selected' : '' ?> ><?= __( 'Disabled', DHL_SHIPPING_ID_UNDERSCORED ) ?></option>
-                <option value='true' <?= $enabled ? 'selected' : '' ?>><?= __( 'Enabled', DHL_SHIPPING_ID_UNDERSCORED ) ?></option>
-            </select>
-        <?php
     }
 
     /**

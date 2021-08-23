@@ -1,5 +1,5 @@
 === Dhl Shipping ===
-Contributors: Anton M
+Contributors: Anton
 Tags: dhl, shipping, woocommerce
 Requires at least: 5.6
 Tested up to: 5.8
@@ -29,5 +29,7 @@ Yes
 
 == Development ==
 
-1. git clone ...
-2. cd dhl-shipping; composer dump-autoload
+1. git clone
+2. cd dhl-shipping
+3. composer install
+4. composer dump-autoload
