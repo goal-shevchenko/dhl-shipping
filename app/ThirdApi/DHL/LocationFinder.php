@@ -55,8 +55,6 @@ class LocationFinder extends Base
     /**
      * Define main settings
      * 
-     * @throws  Exception
-     * 
      * @since   1.0.0
      * @access  public
      */
@@ -67,9 +65,6 @@ class LocationFinder extends Base
         $this->base_url     = 'https://api.dhl.com/location-finder/v1';
         $this->api_key      = $options['dhl_api_key'];
         $this->api_secret   = $options['dhl_api_secret'];
-
-        if ( empty( $this->api_key ) || empty( $this->api_secret ) )
-            throw new Exception( 'Api key or Api secret not specified' ) ;        
 
         $curl = new Curl();
         $curl->setHeader( 'DHL-API-Key', $this->api_key );
@@ -89,6 +84,7 @@ class LocationFinder extends Base
      * @access  private
      */
     private function __wakeup() { }
+
 
     /**
      * Get existing instance of the class. If not exists - create it

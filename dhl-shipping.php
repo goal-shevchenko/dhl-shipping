@@ -11,7 +11,7 @@
  * @since             1.0.0
  *
  * @wordpress-plugin
- * Plugin Name:      	Dhl shipping
+ * Plugin Name:      	DHL shipping
  * Description:       	Extend Woocommerce with new DHL shipping options
  * Version:           	1.0.0
  * Author:           	Anton

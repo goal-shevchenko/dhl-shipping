@@ -32,7 +32,9 @@ class PluginActivator
     {
         add_option( DHL_SHIPPING_ID_UNDERSCORED . '_db_version', DHL_SHIPPING_DB_VERSION );
         add_option( DHL_SHIPPING_ID_UNDERSCORED . '_options', [
-            'plugin_enabled'            => false
+            'plugin_enabled'    => false,
+            'dhl_api_key'       => '',
+            'dhl_api_secret'    => ''
         ] );
     }
 
